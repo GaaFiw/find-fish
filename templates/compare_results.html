@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}เปรียบเทียบปลา — Find Fish{% endblock %}
+
+{% block content %}
+<a class="back" href="{{ url_for('compare', fish=fishes|map(attribute='id')|join(','), select=1) }}">← เปลี่ยนปลาที่เลือก</a>
+<h1>ตารางเปรียบเทียบปลา</h1>
+
+<p class="compare-share">
+  ลิงก์สำหรับแชร์:
+  <a href="{{ request.base_url }}?fish={{ fishes|map(attribute='id')|join(',') }}">
+    {{ request.base_url }}?fish={{ fishes|map(attribute='id')|join(',') }}
+  </a>
+</p>
+
+<section class="compare-advice" aria-labelledby="compare-advice-title">
+  <h2 id="compare-advice-title">ข้อพิจารณาในการเลือกเลี้ยง</h2>
+  <ul>
+    {% for recommendation in recommendations %}<li>{{ recommendation }}</li>{% endfor %}
+  </ul>
+  <p>คำแนะนำนี้สรุปจากข้อมูลที่มี ไม่ใช่การรับประกันผลผลิตหรือกำไร ควรพิจารณาสภาพฟาร์มและตลาดในพื้นที่ร่วมด้วย</p>
+</section>
+
+<label class="compare-toggle">
+  <input type="checkbox" id="hideSame">
+  ซ่อนข้อมูลที่เหมือนกัน
+</label>
+
+<div class="comparison-scroll" role="region" aria-label="ตารางเปรียบเทียบปลา" tabindex="0">
+  <table class="comparison-table" id="comparisonTable">
+    <thead>
+      <tr>
+        <th scope="col">หัวข้อ</th>
+        {% for fish in fishes %}
+        <th scope="col">
+          <div class="comparison-fish-heading">
+            {% if fish.has_image %}
+            <img src="{{ url_for('static', filename='img/cards/' ~ fish.image) }}" alt="">
+            {% else %}
+            <span class="compare-image-placeholder">{{ fish.name_th }}</span>
+            {% endif %}
+            <strong>{{ fish.name_th }}</strong>
+            <a class="remove-fish" href="{{ url_for('compare', fish=fishes|rejectattr('id', 'equalto', fish.id)|map(attribute='id')|join(',')) }}" aria-label="นำ{{ fish.name_th }}ออกจากการเปรียบเทียบ">× เอาออก</a>
+          </div>
+        </th>
+        {% endfor %}
+        {% if fishes|length < 4 %}
+        <th scope="col" class="add-fish-cell">
+          <a href="{{ url_for('compare', fish=fishes|map(attribute='id')|join(','), select=1) }}">＋ เพิ่มปลา</a>
+        </th>
+        {% endif %}
+      </tr>
+    </thead>
+    {% for section in sections %}
+    <tbody>
+      <tr class="comparison-group"><th colspan="{{ fishes|length + 1 + (1 if fishes|length < 4 else 0) }}">{{ section.name }}</th></tr>
+      {% for row in section.rows %}
+      <tr class="comparison-row" data-identical="{{ 'true' if row.identical else 'false' }}">
+        <th scope="row">{{ row.label }}</th>
+        {% for cell in row.cells %}
+        <td{% if cell.highlight %} class="comparison-best"{% endif %}>{{ cell.value }}</td>
+        {% endfor %}
+        {% if fishes|length < 4 %}<td class="add-fish-cell" aria-hidden="true">—</td>{% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+
+<p class="comparison-legend"><span aria-hidden="true">　</span> สีเขียวแสดงค่าตัวเลขที่เด่นตามหัวข้อ: ระยะเลี้ยงสั้นที่สุด ราคาขายสูงที่สุด หรือ FCR ต่ำที่สุด (เฉพาะค่าที่มีข้อมูล)</p>
+
+<script>
+  const hideSame = document.getElementById('hideSame');
+  const comparisonGroups = Array.from(document.querySelectorAll('.comparison-table tbody'));
+
+  hideSame.addEventListener('change', () => {
+    comparisonGroups.forEach((group) => {
+      const rows = Array.from(group.querySelectorAll('.comparison-row'));
+      rows.forEach((row) => {
+        row.hidden = hideSame.checked && row.dataset.identical === 'true';
+      });
+      group.querySelector('.comparison-group').hidden = rows.every((row) => row.hidden);
+    });
+  });
+</script>
+{% endblock %}

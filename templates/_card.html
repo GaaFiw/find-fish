@@ -1,0 +1,23 @@
+<a
+  class="card"
+  href="{{ url_for('fishdetail', fish_id=fish.id) }}"
+  data-name="{{ fish.name_th }}"
+  data-search="{{ fish.name_th }} {{ fish.name_en }} {{ fish.name_sci }}"
+  data-duration="{{ fish.duration.months_min if fish.duration and fish.duration.months_min else '' }}"
+>
+  {% if fish.has_image %}
+    <img src="{{ url_for('static', filename='img/cards/' ~ fish.image) }}" alt="{{ fish.name_th }}">
+  {% else %}
+    <div class="img-placeholder">{{ fish.name_th }}</div>
+  {% endif %}
+  <h3>{{ fish.name_th }}</h3>
+  <p class="sci">{{ fish.name_sci }}</p>
+  <p class="meta">
+    {% if fish.food and fish.food.type %}🍽 {{ fish.food.type }}<br>{% endif %}
+    {% if fish.duration and (fish.duration.months_min or fish.duration.months_max) %}
+      ⏱ {{ fish.duration.months_min }}–{{ fish.duration.months_max }} เดือน
+    {% else %}
+      ⏱ รอข้อมูล
+    {% endif %}
+  </p>
+</a>

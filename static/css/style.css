@@ -1,0 +1,136 @@
+/* ตั้งค่าพื้นฐาน — ออกแบบสำหรับมือถือก่อน แล้วค่อยขยายบนจอใหญ่ */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, "Noto Sans Thai", sans-serif; background: #f4f8fb; color: #1b2a35; line-height: 1.6; }
+a { color: inherit; text-decoration: none; }
+
+.site-header { background: #0b5f8a; color: #fff; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; }
+.logo { font-size: 1.3rem; font-weight: 700; }
+.tagline { font-size: 0.85rem; opacity: 0.85; }
+.container { max-width: 960px; margin: 0 auto; padding: 16px; }
+.site-footer { text-align: center; font-size: 0.8rem; color: #5a6b76; padding: 24px 16px; }
+
+/* หน้ารายการ: มือถือ 1 คอลัมน์ */
+.fish-grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+.sort-form { display: flex; align-items: center; gap: 8px; margin: 12px 0 16px; }
+.sort-form label { font-size: 0.9rem; }
+.sort-form select { padding: 8px 12px; font-size: 1rem; border: 1px solid #bbb; border-radius: 8px; background: #fff; }
+.sort-form button { padding: 8px 12px; font-size: 1rem; border: 0; border-radius: 8px; background: #1e6fb8; color: #fff; cursor: pointer; }
+.fish-grid .card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); display: block; }
+.fish-grid .card > img, .fish-grid .card > .img-placeholder { width: 100%; height: 160px; display: block; }
+.fish-grid .card > img { object-fit: contain; background: #fff; border-radius: 14px; }
+.fish-grid .card > .img-placeholder { border-radius: 14px 14px 0 0; }
+.img-placeholder { background: #d7e3ec; color: #4a6072; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+.img-placeholder.large { height: 220px; border-radius: 12px; }
+.fish-grid .card h3 { margin: 10px 12px 2px; font-size: 1.1rem; }
+.card-body { padding: 12px 14px; }
+.card-body h2 { margin: 0 0 2px; font-size: 1.1rem; }
+.fish-grid .card .sci { margin: 0 12px 6px; }
+.fish-grid .card .meta { margin: 0 12px 12px; }
+.sci { font-style: italic; color: #5a6b76; margin: 0 0 6px; font-size: 0.9rem; }
+.en { color: #5a6b76; margin: 0; }
+.meta { margin: 2px 0; font-size: 0.9rem; }
+
+/* หน้ารายละเอียด */
+.back { display: inline-block; margin-bottom: 12px; color: #0b5f8a; }
+.fish-detail { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.fish-detail h1 { margin: 0; }
+.fish-detail figure { margin:
+12px 0; }
+.fish-detail figure img { width: 100%; border-radius: 12px; }
+figcaption { font-size: 0.8rem; color: #5a6b76; }
+.fish-detail section { margin-top: 20px; }
+.fish-detail h2 { font-size: 1.05rem; color: #0b5f8a; border-bottom: 2px solid #e1ebf2; padding-bottom: 4px; }
+.disease { border-left: 3px solid #e38b2d; padding-left: 10px; margin: 10px 0; }
+.disease h3 { margin: 0 0 4px; font-size: 1rem; }
+.note { font-size: 0.85rem; background: #fff4e5; padding: 8px 10px; border-radius: 8px; }
+.status { font-size: 0.8rem; color: #5a6b76; margin-top: 24px; }
+
+/* จอกว้างกว่า 600px → 2 คอลัมน์, กว้างกว่า 900px → 3 คอลัมน์ */
+@media (min-width: 600px) { .fish-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .fish-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* ---- หน้ากรอง ---- */
+.filter-controls { display: grid; grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr); gap: 16px; margin: 16px 0 20px; padding: 18px; background: #fff; border: 1px solid #e1ebf2; border-radius: 14px; box-shadow: 0 2px 8px rgba(11, 95, 138, .07); }
+.filter-controls label { display: flex; flex-direction: column; gap: 6px; color: #334b5b; font-size: 0.9rem; font-weight: 600; }
+.filter-controls input, .filter-controls select { width: 100%; min-height: 44px; padding: 9px 12px; border: 1px solid #b8c9d4; border-radius: 8px; background: #fff; color: #1b2a35; font: inherit; }
+.filter-controls input:focus, .filter-controls select:focus { outline: 3px solid rgba(30, 111, 184, .2); border-color: #1e6fb8; }
+.filter-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin: 16px 0; }
+.filter-form label { display: flex; flex-direction: column; font-size: 0.9rem; gap: 4px; }
+.filter-form select, .filter-form button { padding: 8px 12px; font-size: 1rem; border-radius: 8px; border: 1px solid #bbb; }
+.filter-form button { background: #1e6fb8; color: #fff; border: none; cursor: pointer; }
+.filter-form .clear { font-size: 0.9rem; align-self: center; }
+.filter-form + .count { margin-top: 20px; }
+.fish-grid .card[hidden] { display: none; }
+.count { color: #555; font-size: 0.9rem; }
+.empty { padding: 24px; text-align: center; color: #777; background: #f4f4f4; border-radius: 12px; }
+
+@media (max-width: 560px) {
+  .filter-controls { grid-template-columns: 1fr; gap: 12px; padding: 14px; }
+}
+
+/* ---- หน้ารวมโรค ---- */
+.disease-search { display: flex; flex-direction: column; gap: 6px; max-width: 680px; margin: 16px 0; padding: 18px; background: #fff; border: 1px solid #e1ebf2; border-radius: 14px; box-shadow: 0 2px 8px rgba(11, 95, 138, .07); }
+.disease-search label { color: #334b5b; font-size: .9rem; font-weight: 600; }
+.disease-search input { width: 100%; min-height: 44px; padding: 9px 12px; border: 1px solid #b8c9d4; border-radius: 8px; background: #fff; color: #1b2a35; font: inherit; }
+.disease-search input:focus { outline: 3px solid rgba(30, 111, 184, .2); border-color: #1e6fb8; }
+.disease-list { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.disease-card { padding: 16px; background: #fff; border: 1px solid #e1ebf2; border-left: 4px solid #e38b2d; border-radius: 12px; box-shadow: 0 1px 4px rgba(0, 0, 0, .06); }
+.disease-card[hidden] { display: none; }
+.disease-card h2 { margin: 0 0 4px; font-size: 1.1rem; }
+.disease-card p { margin: 8px 0 0; }
+.disease-fish { color: #5a6b76; font-size: .9rem; }
+.disease-fish a { color: #0b5f8a; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.disease-no-symptom { color: #6d7880; font-style: italic; }
+
+/* ---- หน้าเปรียบเทียบปลา ---- */
+.compare-select-form { padding-bottom: 88px; }
+.compare-fish-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.compare-fish-card { position: relative; display: flex; min-width: 0; flex-direction: column; gap: 5px; padding: 12px; overflow: hidden; background: #fff; border: 2px solid #e1ebf2; border-radius: 14px; box-shadow: 0 1px 4px rgba(0, 0, 0, .06); cursor: pointer; }
+.compare-fish-card:has(input:checked), .compare-fish-card.is-selected { border-color: #1e6fb8; background: #f0f8ff; }
+.compare-fish-card input { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; accent-color: #1e6fb8; }
+.compare-fish-card input:disabled { cursor: not-allowed; }
+.compare-fish-card img, .compare-image-placeholder { display: flex; width: 100%; height: 112px; align-items: center; justify-content: center; object-fit: contain; background: #fff; border-radius: 8px; }
+.compare-fish-name { padding-right: 24px; font-weight: 700; }
+.compare-fish-scientific { color: #5a6b76; font-size: .8rem; font-style: italic; }
+.compare-selection-bar { position: fixed; z-index: 10; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px max(16px, calc((100vw - 928px) / 2)); background: rgba(255, 255, 255, .97); border-top: 1px solid #d6e2e9; box-shadow: 0 -3px 12px rgba(16, 50, 70, .1); }
+.compare-selection-bar button { min-height: 44px; padding: 8px 20px; color: #fff; background: #1e6fb8; border: 0; border-radius: 8px; font: inherit; font-weight: 700; cursor: pointer; }
+.compare-selection-bar button:disabled { background: #aab8c0; cursor: not-allowed; }
+.compare-share { overflow-wrap: anywhere; font-size: .9rem; }
+.compare-share a { color: #0b5f8a; text-decoration: underline; text-underline-offset: 2px; }
+.compare-advice { margin: 16px 0; padding: 16px; background: #fff; border-left: 4px solid #1e6fb8; border-radius: 10px; }
+.compare-advice h2 { margin: 0; font-size: 1.1rem; }
+.compare-advice ul { margin: 8px 0; padding-left: 22px; }
+.compare-advice p { margin: 10px 0 0; color: #5a6b76; font-size: .85rem; }
+.compare-toggle { display: inline-flex; align-items: center; gap: 8px; margin: 8px 0 12px; cursor: pointer; }
+.compare-toggle input { width: 18px; height: 18px; accent-color: #1e6fb8; }
+.comparison-scroll { max-height: 72vh; overflow: auto; border: 1px solid #d6e2e9; border-radius: 12px; background: #fff; }
+.comparison-table { width: max-content; min-width: 100%; border-collapse: separate; border-spacing: 0; }
+.comparison-table th, .comparison-table td { min-width: 190px; max-width: 300px; padding: 10px 12px; border-right: 1px solid #e1ebf2; border-bottom: 1px solid #e1ebf2; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.comparison-table thead th { position: sticky; z-index: 3; top: 0; background: #eaf3f8; text-align: center; }
+.comparison-table thead th:first-child, .comparison-table tbody th { position: sticky; z-index: 2; left: 0; min-width: 150px; max-width: 190px; background: #f5f9fb; }
+.comparison-table thead th:first-child { z-index: 4; }
+.comparison-table .comparison-group th { position: sticky; z-index: 1; left: 0; padding: 8px 12px; color: #0b5f8a; background: #eaf3f8; font-size: .95rem; }
+.comparison-fish-heading { display: flex; min-width: 140px; align-items: center; flex-direction: column; gap: 4px; }
+.comparison-fish-heading img, .comparison-fish-heading .compare-image-placeholder { width: 100%; height: 80px; object-fit: contain; border-radius: 8px; }
+.comparison-fish-heading .compare-image-placeholder { font-size: .8rem; }
+.comparison-fish-heading strong { font-size: .95rem; }
+.remove-fish { color: #a33b35; font-size: .8rem; font-weight: 500; }
+.comparison-best { background: #e4f5e8; font-weight: 700; }
+.add-fish-cell { min-width: 130px !important; max-width: 150px !important; }
+.add-fish-cell a { display: inline-block; padding: 7px 10px; color: #0b5f8a; background: #fff; border: 1px dashed #8caab9; border-radius: 8px; white-space: nowrap; }
+.comparison-legend { color: #5a6b76; font-size: .85rem; }
+.comparison-legend span { background: #e4f5e8; }
+.comparison-table [hidden] { display: none; }
+
+/* ---- ป้ายรอข้อมูล ---- */
+.badge { display: inline-block; font-size: 0.75rem; background: #fde9a9; color: #7a5a00; padding: 2px 8px; border-radius: 999px; }
+
+@media (max-width: 560px) {
+  .compare-fish-card { padding: 9px; }
+  .compare-fish-card img, .compare-image-placeholder { height: 92px; }
+  .comparison-table th, .comparison-table td { min-width: 130px; max-width: 220px; padding: 8px; font-size: .88rem; }
+  .comparison-table thead th:first-child, .comparison-table tbody th { min-width: 105px; max-width: 120px; }
+  .comparison-fish-heading { min-width: 105px; }
+  .comparison-fish-heading img, .comparison-fish-heading .compare-image-placeholder { height: 64px; }
+  .add-fish-cell { min-width: 110px !important; }
+}

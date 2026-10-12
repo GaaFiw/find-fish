@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}เปรียบเทียบปลา — Find Fish{% endblock %}
+
+{% block content %}
+<h1>เลือกปลาที่ต้องการเปรียบเทียบ</h1>
+<p>เลือกปลา 2–4 ชนิด ระบบจะแสดงข้อมูลที่มีและระบุช่องที่ยังไม่มีข้อมูล</p>
+
+<form class="compare-select-form" action="{{ url_for('compare') }}" method="get">
+  <div class="compare-fish-grid">
+    {% for fish in fish_list %}
+    <label class="compare-fish-card">
+      <input
+        type="checkbox"
+        name="fish"
+        value="{{ fish.id }}"
+        {% if fish.id in selected_ids %}checked{% endif %}
+      >
+      {% if fish.has_image %}
+      <img src="{{ url_for('static', filename='img/cards/' ~ fish.image) }}" alt="">
+      {% else %}
+      <span class="compare-image-placeholder">{{ fish.name_th }}</span>
+      {% endif %}
+      <span class="compare-fish-name">{{ fish.name_th }}</span>
+      {% if fish.name_sci %}<span class="compare-fish-scientific">{{ fish.name_sci }}</span>{% endif %}
+    </label>
+    {% endfor %}
+  </div>
+
+  <div class="compare-selection-bar">
+    <span>เลือกแล้ว <strong id="selectedCount">{{ selected_ids|length }}</strong>/4</span>
+    <button type="submit" id="compareButton" {% if selected_ids|length < 2 %}disabled{% endif %}>
+      เปรียบเทียบ
+    </button>
+  </div>
+</form>
+
+<script>
+  const fishChoices = Array.from(document.querySelectorAll('.compare-fish-card input'));
+  const selectedCount = document.getElementById('selectedCount');
+  const compareButton = document.getElementById('compareButton');
+
+  function updateSelection() {
+    const checkedCount = fishChoices.filter((choice) => choice.checked).length;
+    selectedCount.textContent = checkedCount;
+    compareButton.disabled = checkedCount < 2;
+    fishChoices.forEach((choice) => {
+      choice.disabled = !choice.checked && checkedCount >= 4;
+      choice.closest('.compare-fish-card').classList.toggle('is-selected', choice.checked);
+    });
+  }
+
+  fishChoices.forEach((choice) => choice.addEventListener('change', updateSelection));
+  updateSelection();
+</script>
+{% endblock %}

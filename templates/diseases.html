@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}รวมโรคปลา — Find Fish{% endblock %}
+
+{% block content %}
+<h1>รวมโรคปลา</h1>
+<p>ค้นหาจากอาการที่สังเกตเห็น เพื่อดูโรคที่อาจเกี่ยวข้องและปลาที่พบโรคนั้น</p>
+
+<section class="disease-search" aria-label="ค้นหาโรคจากอาการ">
+  <label for="symptomSearch">อาการที่เห็น</label>
+  <input
+    type="search"
+    id="symptomSearch"
+    placeholder="เช่น เมือกมาก ว่ายน้ำผิดปกติ หรือจุดขาว"
+    autocomplete="off"
+  >
+</section>
+
+<p class="count" aria-live="polite">
+  พบ <span id="diseaseCount">{{ diseases|length }}</span> จาก {{ diseases|length }} โรค
+</p>
+
+{% if diseases %}
+<div class="disease-list" id="diseaseList">
+  {% for disease in diseases %}
+  <article class="disease-card" data-symptom="{{ disease.symptom }}">
+    <h2>{{ disease.name }}</h2>
+    <p class="disease-fish">
+      พบใน:
+      <a href="{{ url_for('fishdetail', fish_id=disease.fish_id) }}">{{ disease.fish_name }}</a>
+    </p>
+    {% if disease.symptom %}
+    <p><strong>อาการ:</strong> {{ disease.symptom }}</p>
+    {% else %}
+    <p class="disease-no-symptom">ยังไม่มีการบันทึกอาการ</p>
+    {% endif %}
+    {% if disease.note %}<p><strong>หมายเหตุ:</strong> {{ disease.note }}</p>{% endif %}
+  </article>
+  {% endfor %}
+</div>
+{% endif %}
+
+<p class="empty" id="noDiseases" {% if diseases %}hidden{% endif %}>
+  ไม่พบโรคที่ตรงกับอาการนี้ ลองค้นหาด้วยคำอื่น
+</p>
+
+<p class="note">
+  ข้อมูลเพื่อการศึกษา อาการที่คล้ายกันอาจเกิดจากหลายสาเหตุ ไม่ใช่การวินิจฉัย
+  หากปลาป่วยควรปรึกษาประมงอำเภอหรือผู้เชี่ยวชาญด้านสุขภาพสัตว์น้ำ
+</p>
+
+<script>
+  const symptomSearch = document.getElementById("symptomSearch");
+  const diseaseCards = Array.from(document.querySelectorAll(".disease-card"));
+  const diseaseCount = document.getElementById("diseaseCount");
+  const noDiseases = document.getElementById("noDiseases");
+
+  symptomSearch.addEventListener("input", () => {
+    const query = symptomSearch.value.trim().toLocaleLowerCase("th");
+    let visibleCount = 0;
+
+    diseaseCards.forEach((card) => {
+      const matches = card.dataset.symptom.toLocaleLowerCase("th").includes(query);
+      card.hidden = !matches;
+      if (matches) visibleCount += 1;
+    });
+
+    diseaseCount.textContent = visibleCount;
+    noDiseases.hidden = visibleCount > 0;
+  });
+</script>
+{% endblock %}

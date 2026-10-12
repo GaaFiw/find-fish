@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}{{ fish.name_th }} — Find Fish{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('index') }}" class="back">← กลับหน้ารายการ</a>
+
+<article class="fish-detail">
+  <header>
+    <h1>{{ fish.name_th }}</h1>
+      {% if fish.name_en %}<p class="en">{{ fish.name_en }}</p>{% endif %}
+      {% if fish.name_sci %}<p class="sci">{{ fish.name_sci }}</p>{% endif %}
+  </header>
+
+  {% if fish.has_image %}
+    <figure>
+      <img src="{{ url_for('static', filename='img/' ~ fish.image) }}" alt="{{ fish.name_th }}">
+      {% if fish.image_credit %}<figcaption>ที่มารูป: {{ fish.image_credit }}</figcaption>{% endif %}
+    </figure>
+  {% else %}
+    <div class="img-placeholder large">{{ fish.name_th }}</div>
+  {% endif %}
+
+  {# แต่ละส่วนจะแสดงเฉพาะเมื่อมีข้อมูล ช่องว่างจะถูกซ่อน #}
+
+  {% if fish.identify %}
+  <section>
+    <h2>จุดสังเกต</h2>
+    <ul>{% for line in fish.identify if line %}<li>{{ line }}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  {% if fish.description %}
+  <section>
+    <h2>ลักษณะทั่วไป</h2>
+    <p>{{ fish.description }}</p>
+  </section>
+  {% endif %}
+
+  {% if fish.water and (fish.water.temp or fish.water.ph or fish.water.detail) %}
+  <section>
+    <h2>สภาพน้ำที่เหมาะสม</h2>
+    <ul>
+      {% if fish.water.temp %}<li>อุณหภูมิ: {{ fish.water.temp }}</li>{% endif %}
+      {% if fish.water.ph %}<li>pH: {{ fish.water.ph }}</li>{% endif %}
+      {% if fish.water.detail %}<li>{{ fish.water.detail }}</li>{% endif %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if fish.food and (fish.food.type or fish.food.detail) %}
+  <section>
+    <h2>อาหาร</h2>
+    {% if fish.food.type %}<p><strong>{{ fish.food.type }}</strong></p>{% endif %}
+    {% if fish.food.detail %}<p>{{ fish.food.detail }}</p>{% endif %}
+  </section>
+  {% endif %}
+
+  {% if fish.duration and (fish.duration.months_max or fish.duration.detail) %}
+  <section>
+    <h2>ระยะเวลาเลี้ยง</h2>
+    {% if fish.duration.months_max %}
+      <p><strong>{{ fish.duration.months_min }}–{{ fish.duration.months_max }} เดือน</strong></p>
+    {% endif %}
+    {% if fish.duration.detail %}<p>{{ fish.duration.detail }}</p>{% endif %}
+  </section>
+  {% endif %}
+
+  {% if fish.pond %}
+  <section>
+    <h2>รูปแบบบ่อที่เลี้ยงได้</h2>
+    <p>{{ fish.pond|join(" · ") }}</p>
+  </section>
+  {% endif %}
+
+  {% if fish.diseases and fish.diseases[0].name %}
+  <section>
+    <h2>โรคที่พบบ่อย</h2>
+    <p class="note">ข้อมูลเพื่อการศึกษา ไม่ใช่การวินิจฉัย หากปลาป่วยควรปรึกษาประมงอำเภอหรือผู้เชี่ยวชาญ</p>
+    {% for d in fish.diseases if d.name %}
+    <div class="disease">
+      <h3>{{ d.name }}</h3>
+      {% if d.symptom %}<p><strong>อาการ:</strong> {{ d.symptom }}</p>{% endif %}
+      {% if d.note %}<p><strong>หมายเหตุ:</strong> {{ d.note }}</p>{% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if fish.sources and fish.sources[0].title %}
+  <section>
+    <h2>แหล่งที่มา</h2>
+    <ol>
+      {% for s in fish.sources if s.title %}
+      <li>
+        {{ s.title }}{% if s.publisher %} — {{ s.publisher }}{% endif %}
+        {% if s.url %} <a href="{{ s.url }}" target="_blank" rel="noopener">[ลิงก์]</a>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  <p class="status">สถานะข้อมูล: {{ fish.status }}</p>
+</article>
+{% endblock %}

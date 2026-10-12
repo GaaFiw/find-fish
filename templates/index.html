@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Find Fish — รายการปลา{% endblock %}
+
+{% block content %}
+<h1>ปลาเศรษฐกิจน้ำจืด ({{ fish_list|length }} ชนิด)</h1>
+
+<form class="sort-form" method="get" action="{{ url_for('index') }}">
+  <label for="sort">เรียงตาม</label>
+  <select id="sort" name="sort" onchange="this.form.submit()">
+    <option value="name" {% if selected_sort == "name" %}selected{% endif %}>ชื่อปลา</option>
+    <option value="fastest" {% if selected_sort == "fastest" %}selected{% endif %}>โตเร็ว → ช้า</option>
+    <option value="slowest" {% if selected_sort == "slowest" %}selected{% endif %}>โตช้า → เร็ว</option>
+  </select>
+  <noscript><button type="submit">เรียงลำดับ</button></noscript>
+</form>
+
+{% if fish_list %}
+<div class="fish-grid">
+  {% for fish in fish_list %}
+    {% include "_card.html" %}
+  {% endfor %}
+</div>
+{% else %}
+<p>ยังไม่มีข้อมูลปลาในระบบ — ตรวจสอบว่ามีไฟล์ .json ในโฟลเดอร์ data/</p>
+{% endif %}
+{% endblock %}

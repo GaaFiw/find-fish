@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}กรองปลา — Find Fish{% endblock %}
+{% block content %}
+<h1>เลือกปลาที่เหมาะกับคุณ</h1>
+
+<section class="filter-controls" aria-label="ค้นหาและเรียงลำดับปลา">
+  <label class="search-control" for="searchInput">
+    <span>ค้นหาชื่อปลา</span>
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="ชื่อไทย ชื่ออังกฤษ หรือชื่อวิทยาศาสตร์"
+      autocomplete="off"
+    >
+  </label>
+
+  <label class="sort-control" for="sortSelect">
+    <span>เรียงลำดับ</span>
+    <select id="sortSelect">
+      <option value="name">ชื่อปลา (ก–ฮ)</option>
+      <option value="fastest">โตเร็ว → ช้า</option>
+      <option value="slowest">โตช้า → เร็ว</option>
+    </select>
+  </label>
+</section>
+
+<!-- method="get" → ค่าที่เลือกไปอยู่ใน URL แชร์ลิงก์ผลลัพธ์ให้เพื่อนได้ -->
+<form class="filter-form" method="get" action="{{ url_for('filterpage') }}">
+  <label>อาหาร
+    <select name="food">
+      <option value="">ทั้งหมด</option>
+      {% for t in food_types %}
+      <option value="{{ t }}" {% if t == selected_food %}selected{% endif %}>{{ t }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>รูปแบบบ่อ
+    <select name="pond">
+      <option value="">ทั้งหมด</option>
+      {% for p in pond_types %}
+      <option value="{{ p }}" {% if p == selected_pond %}selected{% endif %}>{{ p }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <button type="submit">กรอง</button>
+  {% if selected_food or selected_pond %}
+  <a class="clear" href="{{ url_for('filterpage') }}">ล้างตัวกรอง</a>
+  {% endif %}
+</form>
+
+<p class="count" aria-live="polite">
+  พบ <span id="visibleCount">{{ fishes|length }}</span> จาก {{ total }} ชนิด
+</p>
+
+{% if fishes %}
+<div class="fish-grid" id="fishList">
+  {% for fish in fishes %}
+    {% include "_card.html" %}
+  {% endfor %}
+</div>
+{% endif %}
+
+<p class="empty" id="emptyMessage"{% if fishes %} hidden{% endif %}>
+  ไม่พบปลาที่ตรงกับคำค้นหาและตัวกรอง ลองเปลี่ยนคำค้นหาหรือตัวเลือกดู
+</p>
+
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const sortSelect = document.getElementById("sortSelect");
+  const fishList = document.getElementById("fishList");
+  const visibleCount = document.getElementById("visibleCount");
+  const emptyMessage = document.getElementById("emptyMessage");
+
+  function renderList() {
+    const query = searchInput.value.trim().toLocaleLowerCase("th");
+    const cards = Array.from(fishList ? fishList.querySelectorAll(".card") : []);
+    const visibleCards = cards.filter((card) =>
+      card.dataset.search.toLocaleLowerCase("th").includes(query)
+    );
+
+    visibleCards.sort((first, second) => {
+      const firstName = first.dataset.name;
+      const secondName = second.dataset.name;
+      const nameOrder = firstName.localeCompare(secondName, "th");
+      const firstMonths = Number(first.dataset.duration);
+      const secondMonths = Number(second.dataset.duration);
+      const firstHasDuration = Number.isFinite(firstMonths) && firstMonths > 0;
+      const secondHasDuration = Number.isFinite(secondMonths) && secondMonths > 0;
+
+      if (sortSelect.value === "name" || firstHasDuration === secondHasDuration && !firstHasDuration) {
+        return nameOrder;
+      }
+      if (!firstHasDuration) return 1;
+      if (!secondHasDuration) return -1;
+
+      const durationOrder = sortSelect.value === "fastest"
+        ? firstMonths - secondMonths
+        : secondMonths - firstMonths;
+      return durationOrder || nameOrder;
+    });
+
+    cards.forEach((card) => {
+      card.hidden = !visibleCards.includes(card);
+    });
+    visibleCards.forEach((card) => fishList.appendChild(card));
+    visibleCount.textContent = visibleCards.length;
+    emptyMessage.hidden = visibleCards.length > 0;
+  }
+
+  searchInput.addEventListener("input", renderList);
+  sortSelect.addEventListener("change", renderList);
+  renderList();
+</script>
+{% endblock %}

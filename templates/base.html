@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <!-- บรรทัดนี้ทำให้แสดงผลบนมือถือถูกต้อง (mobile-first) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Find Fish{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a href="{{ url_for('index') }}" class="logo">🐟 Find Fish</a>
+    <a href="{{ url_for('filterpage') }}" class="filter-link">กรอง</a>
+    <a href="{{ url_for('disease_list') }}" class="filter-link">โรคปลา</a>
+    <a href="{{ url_for('compare') }}" class="filter-link">เปรียบเทียบปลา</a>
+    <span class="tagline">ข้อมูลปลาเศรษฐกิจ ครบในที่เดียว</span>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    โครงงาน Find Fish โดยกลุ่ม BLUECODE · ข้อมูลเพื่อการศึกษา อ้างอิงเอกสารกรมประมงเป็นหลัก
+  </footer>
+</body>
+</html>
