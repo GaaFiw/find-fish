@@ -73,6 +73,18 @@
   </section>
   {% endif %}
 
+  {% if fish.economy %}
+  <section>
+    <h2>เศรษฐกิจ</h2>
+    {% for economy in fish.economy %}
+      {% if economy.total_cost %}<p><strong>รายละเอียดการคิดต้นทุนการเลี้ยงโดยประมาณ:</strong> {{ economy.total_cost }}</p>{% endif %}
+      {% if economy.cost %}<p><strong>ต้นทุนการเลี้ยงโดยประมาณ (ราคา/100 ตัว):</strong> {{ economy.cost }}</p>{% endif %}
+      {% if economy.price %}<p><strong>ราคาขายต่อกิโลกรัม:</strong> {{ economy.price }}</p>{% endif %}
+      {% if economy.market %}<p><strong>ตลาดหลัก:</strong> {{ economy.market }}</p>{% endif %}
+    {% endfor %}
+  </section>
+  {% endif %}
+
   {% if fish.diseases and fish.diseases[0].name %}
   <section>
     <h2>โรคที่พบบ่อย</h2>

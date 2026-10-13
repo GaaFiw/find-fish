@@ -73,7 +73,8 @@ def comparison_data(fishes):
             ("pond", "รูปแบบบ่อที่เลี้ยงได้"),
         ]),
         ("เศรษฐกิจ", [
-            ("cost", "ต้นทุนการเลี้ยงโดยประมาณ"),
+            ("total_cost", "รายละเอียดการคิดต้นทุนการเลี้ยงโดยประมาณ"),
+            ("cost", "ต้นทุนการเลี้ยงโดยประมาณ(ราคา/100 ตัว)"),
             ("price", "ราคาขายต่อกิโลกรัม"),
             ("market", "ตลาดหลัก"),
         ]),
@@ -116,6 +117,11 @@ def comparison_data(fishes):
                 if disease.get("name")
             ]
             return " · ".join(names) or "ยังไม่มีข้อมูล"
+        if key in {"total_cost", "cost", "price", "market"}:
+            economy = fish.get("economy") or []
+            if isinstance(economy, list):
+                economy = economy[0] if economy else {}
+            return compare_value(economy, key)
         if key in {"temperature", "ph", "oxygen", "O2", "salinity"}:
             water = fish.get("water") or {}
             water_key = {
