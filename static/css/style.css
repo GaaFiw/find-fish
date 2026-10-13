@@ -58,7 +58,7 @@ figcaption { font-size: 0.8rem; color: #5a6b76; }
 .filter-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin: 16px 0; }
 .filter-form label { display: flex; flex-direction: column; font-size: 0.9rem; gap: 4px; }
 .filter-form select, .filter-form button { padding: 8px 12px; font-size: 1rem; border-radius: 8px; border: 1px solid #bbb; }
-.filter-form button { background: #1e6fb8; color: #fff; border: none; cursor: pointer; }
+.filter-form button { background: #51d5e6; color: #fff; border: none; cursor: pointer; }
 .filter-form .clear { font-size: 0.9rem; align-self: center; }
 .filter-form + .count { margin-top: 20px; }
 .fish-grid .card[hidden] { display: none; }
