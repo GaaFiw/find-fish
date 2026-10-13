@@ -36,10 +36,11 @@
   </section>
   {% endif %}
 
-  {% if fish.water and (fish.water.temp or fish.water.ph or fish.water.detail) %}
+  {% if fish.water %}
   <section>
     <h2>สภาพน้ำที่เหมาะสม</h2>
     <ul>
+      <li>ออกซิเจนละลายน้ำ (O₂): {{ fish.water.O2 or "ยังไม่มีข้อมูล" }}</li>
       {% if fish.water.temp %}<li>อุณหภูมิ: {{ fish.water.temp }}</li>{% endif %}
       {% if fish.water.ph %}<li>pH: {{ fish.water.ph }}</li>{% endif %}
       {% if fish.water.detail %}<li>{{ fish.water.detail }}</li>{% endif %}

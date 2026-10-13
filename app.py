@@ -68,7 +68,7 @@ def comparison_data(fishes):
         ("สภาพแวดล้อม", [
             ("temperature", "อุณหภูมิน้ำ"),
             ("ph", "pH"),
-            ("oxygen", "ออกซิเจนละลายน้ำ"),
+            ("O2", "ออกซิเจนละลายน้ำ"),
             ("disease_resistance", "โรคที่พบบ่อย"),
             ("pond", "รูปแบบบ่อที่เลี้ยงได้"),
         ]),
@@ -108,12 +108,13 @@ def comparison_data(fishes):
             food = fish.get("food") or {}
             parts = [food.get("type"), food.get("detail")]
             return " — ".join(part for part in parts if part) or "ยังไม่มีข้อมูล"
-        if key in {"temperature", "ph", "oxygen", "salinity"}:
+        if key in {"temperature", "ph", "oxygen", "O2", "salinity"}:
             water = fish.get("water") or {}
             water_key = {
                 "temperature": "temp",
                 "ph": "ph",
                 "oxygen": "oxygen",
+                "O2": "O2",
                 "salinity": "salinity",
             }[key]
             return compare_value(water, water_key)
