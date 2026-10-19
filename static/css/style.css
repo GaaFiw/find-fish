@@ -11,7 +11,7 @@ body {
 .site-header { background: #51d5e6 url("../img/TAP.png") center / cover no-repeat; color: #fff; padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 .logo { display: inline-flex; flex: 0 0 auto; align-items: center; }
 .logo img { display: block; width: 72px; height: 72px; object-fit: contain; }
-.filter-link { display: inline-flex; min-height: 40px; align-items: center; padding: 6px 10px; border: 1px solid rgba(255, 255, 255, .85); border-radius: 8px; font-weight: 600; }
+.filter-link { display: inline-flex; min-height: 40px; align-items: center; padding: 6px 10px; border: 1px solid rgba(255, 255, 255, .85); border-radius: 8px; color: #0B7199; font-weight: 600; }
 .filter-link:hover, .filter-link:focus-visible { background: #fff; color: #0b5f8a; }
 .filter-link:focus-visible { outline: 3px solid #0b5f8a; outline-offset: 2px; }
 .tagline { font-size: 0.85rem; opacity: 0.85; }
@@ -30,7 +30,7 @@ body {
 .fish-grid .card > .img-placeholder { border-radius: 14px 14px 0 0; }
 .img-placeholder { background: #d7e3ec; color: #4a6072; display: flex; align-items: center; justify-content: center; font-weight: 600; }
 .img-placeholder.large { height: 220px; border-radius: 12px; }
-.fish-grid .card h3 { margin: 10px 12px 2px; font-size: 1.1rem; }
+.fish-grid .card h3 { margin: 10px 12px 2px; color: #0B7199; font-size: 1.1rem; }
 .card-body { padding: 12px 14px; }
 .card-body h2 { margin: 0 0 2px; font-size: 1.1rem; }
 .fish-grid .card .sci { margin: 0 12px 6px; }
