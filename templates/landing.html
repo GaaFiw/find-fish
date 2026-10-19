@@ -19,17 +19,32 @@
       fetchpriority="high"
     >
     <div class="landing-shade"></div>
+
     <section class="landing-content" aria-labelledby="landing-title">
       <img class="landing-logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Find Fish">
+
       <p class="landing-eyebrow">แหล่งรวมข้อมูลปลาเศรษฐกิจน้ำจืด</p>
       <h1 id="landing-title">ค้นพบเรื่องราวของปลา<br>เริ่มต้นได้ที่ Find Fish</h1>
+
       <p class="landing-description">
-        เรียนรู้ข้อมูลปลา การเลี้ยง และสภาพแวดล้อมที่เหมาะสม
+        เรียนรู้ข้อมูลปลา การเลี้ยง และสภาพแวดล้อมที่เหมาะสม<br>
         รวมไว้ให้ค้นหาได้ในที่เดียว
       </p>
       <a class="landing-button" href="{{ url_for('index') }}">เริ่มต้นใช้งาน</a>
+
+      <div class="landing-team">
+        <p class="team-title">โครงงาน Find Fish โดยกลุ่ม BLUECODE</p>
+        <ul class="team-list">
+          <li>ชนันธร ผายแสง</li>
+          <li>นรีวรรณ สวัสดิผล</li>
+          <li>น้ำอิงค์ กรางทอง</li>
+          <li>นิรุชา กัลปนาท</li>
+          <li>ฟิสิกส์ แดงดี</li>
+          <li>ศิริวรัญญา รอดภิรมย์</li>
+          <li>ยศภัทร สุขสุแพทย์</li>
+        </ul>
+      </div>
     </section>
-    <p class="landing-credit">โครงงาน Find Fish โดยกลุ่ม BLUECODE</p>
   </main>
 </body>
 </html>
