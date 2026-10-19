@@ -14,7 +14,7 @@
   <main class="landing">
     <img
       class="landing-image"
-      src="{{ url_for('static', filename='img/mian.png') }}"
+      src="{{ url_for('static', filename='img/main.png') }}"
       alt=""
       fetchpriority="high"
     >
@@ -30,7 +30,9 @@
         เรียนรู้ข้อมูลปลา การเลี้ยง และสภาพแวดล้อมที่เหมาะสม<br>
         รวมไว้ให้ค้นหาได้ในที่เดียว
       </p>
-      <a class="landing-button" href="{{ url_for('index') }}">เริ่มต้นใช้งาน</a>
+      <a class="landing-button" href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='img/Findbutton.png') }}" alt="เริ่มต้นใช้งาน">
+      </a>
 
       <div class="landing-team">
         <p class="team-title">โครงงาน Find Fish โดยกลุ่ม BLUECODE</p>
