@@ -11,7 +11,7 @@ body {
 .site-header { background: #51d5e6 url("../img/TAP.png") center / cover no-repeat; color: #fff; padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 .logo { display: inline-flex; flex: 0 0 auto; align-items: center; }
 .logo img { display: block; width: 72px; height: 72px; object-fit: contain; }
-.filter-link { display: inline-flex; min-height: 40px; align-items: center; padding: 6px 10px; border: 0; border-radius: 8px; background: transparent url("../img/Button.png") center / 100% 100% no-repeat; color: #fff; font-weight: 600; }
+.filter-link { display: inline-flex; min-height: 48px; align-items: center; padding: 10px 20px; border: 0; border-radius: 8px; background: transparent url("../img/Button.png") center / 100% 100% no-repeat; color: #fff; font-weight: 600; text-decoration: none; }
 .filter-link:hover, .filter-link:focus-visible { color: #fff; }
 .filter-link:focus-visible { outline: 3px solid #0b5f8a; outline-offset: 2px; }
 .tagline { font-size: 0.85rem; opacity: 0.85; }
