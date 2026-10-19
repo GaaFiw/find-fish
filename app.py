@@ -185,8 +185,14 @@ def comparison_data(fishes):
 
 
 @app.route("/")
+def landing():
+    """หน้าแนะนำเว็บไซต์ก่อนเข้าสู่รายการปลา"""
+    return render_template("landing.html")
+
+
+@app.route("/index")
 def index():
-    """หน้าแรก: รายการปลาทุกตัว พร้อมตัวเลือกเรียงลำดับ"""
+    """หน้ารายการปลาทุกตัว พร้อมตัวเลือกเรียงลำดับ"""
     selected_sort = request.args.get("sort", "name")
     if selected_sort not in {"name", "fastest", "slowest"}:
         selected_sort = "name"

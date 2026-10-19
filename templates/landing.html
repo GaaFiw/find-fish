@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find Fish — แหล่งรวมข้อมูลปลาเศรษฐกิจน้ำจืด เพื่อการศึกษาและการเลี้ยงปลา">
+  <title>Find Fish — ยินดีต้อนรับ</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="landing-page">
+  <main class="landing">
+    <img
+      class="landing-image"
+      src="{{ url_for('static', filename='img/mian.png') }}"
+      alt=""
+      fetchpriority="high"
+    >
+    <div class="landing-shade"></div>
+    <section class="landing-content" aria-labelledby="landing-title">
+      <img class="landing-logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Find Fish">
+      <p class="landing-eyebrow">แหล่งรวมข้อมูลปลาเศรษฐกิจน้ำจืด</p>
+      <h1 id="landing-title">ค้นพบเรื่องราวของปลา<br>เริ่มต้นได้ที่ Find Fish</h1>
+      <p class="landing-description">
+        เรียนรู้ข้อมูลปลา การเลี้ยง และสภาพแวดล้อมที่เหมาะสม
+        รวมไว้ให้ค้นหาได้ในที่เดียว
+      </p>
+      <a class="landing-button" href="{{ url_for('index') }}">เริ่มต้นใช้งาน</a>
+    </section>
+    <p class="landing-credit">โครงงาน Find Fish โดยกลุ่ม BLUECODE</p>
+  </main>
+</body>
+</html>
