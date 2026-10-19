@@ -281,7 +281,7 @@ def disease_list():
 
 @app.route("/compare")
 def compare():
-    """בחירת 2–4 מינים והשוואת הנתונים הזמינים עבורם."""
+    """เลือกปลา 2–4 ชนิดเพื่อเปรียบเทียบข้อมูลที่มีอยู่"""
     all_fish = load_fish()
     fish_by_id = {fish.get("id"): fish for fish in all_fish if fish.get("id")}
     requested_ids = []
