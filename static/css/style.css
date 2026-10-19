@@ -189,8 +189,8 @@ body.landing-page {
 .landing-logo {
   background: transparent;
   border-radius: 0;
-  width: 130px;
-  height: 130px;
+  width: 200px;
+  height: 200px;
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
 }
 
@@ -216,7 +216,7 @@ body.landing-page {
 }
 
 .team-title {
-  margin: 0 0 10px 0;
+  margin: 0 0 13px 0;
   font-weight: 700;
   color: #9eeaf0;
   font-size: 1rem;
