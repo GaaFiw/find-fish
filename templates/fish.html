@@ -52,6 +52,11 @@
   <section>
     <h2>อาหาร</h2>
     {% if fish.food.type %}<p><strong>{{ fish.food.type }}</strong></p>{% endif %}
+    <ul>
+      <li><strong>เวลา:</strong> {{ fish.food.time or "ยังไม่มีข้อมูลระบุ" }}</li>
+      <li><strong>ปริมาณ:</strong> {{ fish.food.quantity or "ยังไม่มีข้อมูลระบุ" }}</li>
+      <li><strong>วิธีให้:</strong> {{ fish.food.method or "ยังไม่มีข้อมูลระบุ" }}</li>
+    </ul>
     {% if fish.food.detail %}<p>{{ fish.food.detail }}</p>{% endif %}
   </section>
   {% endif %}
