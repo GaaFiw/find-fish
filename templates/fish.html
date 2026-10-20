@@ -44,6 +44,8 @@
       {% if fish.water.temp %}<li>อุณหภูมิ: {{ fish.water.temp }}</li>{% endif %}
       {% if fish.water.ph %}<li>pH: {{ fish.water.ph }}</li>{% endif %}
       {% if fish.water.hardness %}<li>ความกระด้าง: {{ fish.water.hardness }}</li>{% endif %}
+      {% if fish.water.alkalinity %}<li>ความเป็นด่าง: {{ fish.water.alkalinity }}</li>{% endif %}
+      {% if fish.water.transparency %}<li>ความโปร่งใส: {{ fish.water.transparency }}</li>{% endif %}
       {% if fish.water.detail %}<li>{{ fish.water.detail }}</li>{% endif %}
     </ul>
   </section>
