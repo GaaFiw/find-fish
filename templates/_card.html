@@ -12,6 +12,7 @@
   {% endif %}
   <h3>{{ fish.name_th }}</h3>
   <p class="sci">{{ fish.name_sci }}</p>
+  {% if fish.category %}<p class="fish-category">{{ fish.category }}</p>{% endif %}
   <p class="meta">
     {% if fish.food and fish.food.type %}🍽 {{ fish.food.type }}<br>{% endif %}
     {% if fish.duration and (fish.duration.months_min or fish.duration.months_max) %}

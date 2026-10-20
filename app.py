@@ -229,28 +229,35 @@ def index():
 @app.route("/filter")
 def filterpage():
     """หน้าเลือกกรองปลา"""
-    fishes = load_fish()
+    all_fishes = load_fish()
+    fishes = all_fishes
+    selected_category = (request.args.get("category") or "").strip()
     selected_food = (request.args.get("food") or "").strip()
     selected_pond = (request.args.get("pond") or "").strip()
 
+    if selected_category:
+        fishes = [fish for fish in fishes if fish.get("category") == selected_category]
     if selected_food:
         fishes = [fish for fish in fishes if (fish.get("food") or {}).get("type") == selected_food]
     if selected_pond:
         fishes = [fish for fish in fishes if selected_pond in pond_list(fish)]
 
+    categories = ["ปลาสวยงามน้ำจืด", "ปลาน้ำจืดเพื่อการบริโภค"]
     food_types = sorted(
         {
             (fish.get("food") or {}).get("type")
-            for fish in load_fish()
+            for fish in all_fishes
             if (fish.get("food") or {}).get("type")
         }
     )
-    pond_types = sorted({pond for fish in load_fish() for pond in pond_list(fish)})
+    pond_types = sorted({pond for fish in all_fishes for pond in pond_list(fish)})
 
     return render_template(
         "filter.html",
         fishes=fishes,
-        total=len(load_fish()),
+        total=len(all_fishes),
+        categories=categories,
+        selected_category=selected_category,
         food_types=food_types,
         pond_types=pond_types,
         selected_food=selected_food,
