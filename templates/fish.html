@@ -65,7 +65,13 @@
   <section>
     <h2>ระยะเวลาเลี้ยง</h2>
     {% if fish.duration.months_max %}
-      <p><strong>{{ fish.duration.months_min }}–{{ fish.duration.months_max }} เดือน</strong></p>
+      {% if fish.duration.months_min %}
+        <p><strong>{{ fish.duration.months_min }}–{{ fish.duration.months_max }} เดือน</strong></p>
+      {% else %}
+        <p><strong>ไม่เกิน {{ fish.duration.months_max }} เดือน</strong></p>
+      {% endif %}
+    {% elif fish.duration.months_min %}
+      <p><strong>ตั้งแต่ {{ fish.duration.months_min }} เดือน</strong></p>
     {% endif %}
     {% if fish.duration.detail %}<p>{{ fish.duration.detail }}</p>{% endif %}
   </section>

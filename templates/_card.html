@@ -16,7 +16,13 @@
   <p class="meta">
     {% if fish.food and fish.food.type %}🍽 {{ fish.food.type }}<br>{% endif %}
     {% if fish.duration and (fish.duration.months_min or fish.duration.months_max) %}
-      ⏱ {{ fish.duration.months_min }}–{{ fish.duration.months_max }} เดือน
+      {% if fish.duration.months_min and fish.duration.months_max %}
+        ⏱ {{ fish.duration.months_min }}–{{ fish.duration.months_max }} เดือน
+      {% elif fish.duration.months_max %}
+        ⏱ ไม่เกิน {{ fish.duration.months_max }} เดือน
+      {% else %}
+        ⏱ ตั้งแต่ {{ fish.duration.months_min }} เดือน
+      {% endif %}
     {% else %}
       ⏱ รอข้อมูล
     {% endif %}

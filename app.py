@@ -102,6 +102,18 @@ def comparison_data(fishes):
                 and maximum > 0
             ):
                 return f"{minimum:g}–{maximum:g} เดือน"
+            if (
+                isinstance(maximum, (int, float))
+                and not isinstance(maximum, bool)
+                and maximum > 0
+            ):
+                return f"ไม่เกิน {maximum:g} เดือน"
+            if (
+                isinstance(minimum, (int, float))
+                and not isinstance(minimum, bool)
+                and minimum > 0
+            ):
+                return f"ตั้งแต่ {minimum:g} เดือน"
             return "ยังไม่มีข้อมูล"
         if key == "harvest_detail":
             return compare_value(fish.get("duration") or {}, "detail")
