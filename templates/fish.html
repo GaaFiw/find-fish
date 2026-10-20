@@ -43,6 +43,7 @@
       <li>ออกซิเจนละลายน้ำ (O₂): {{ fish.water.O2 or "ยังไม่มีข้อมูล" }}</li>
       {% if fish.water.temp %}<li>อุณหภูมิ: {{ fish.water.temp }}</li>{% endif %}
       {% if fish.water.ph %}<li>pH: {{ fish.water.ph }}</li>{% endif %}
+      {% if fish.water.hardness %}<li>ความกระด้าง: {{ fish.water.hardness }}</li>{% endif %}
       {% if fish.water.detail %}<li>{{ fish.water.detail }}</li>{% endif %}
     </ul>
   </section>
@@ -104,7 +105,10 @@
     {% for d in fish.diseases if d.name %}
     <div class="disease">
       <h3>{{ d.name }}</h3>
+      {% if d.cause %}<p><strong>สาเหตุ:</strong> {{ d.cause }}</p>{% endif %}
       {% if d.symptom %}<p><strong>อาการ:</strong> {{ d.symptom }}</p>{% endif %}
+      {% if d.prevention %}<p><strong>การป้องกัน:</strong> {{ d.prevention }}</p>{% endif %}
+      {% if d.treatment %}<p><strong>แนวทางดูแล:</strong> {{ d.treatment }}</p>{% endif %}
       {% if d.note %}<p><strong>หมายเหตุ:</strong> {{ d.note }}</p>{% endif %}
     </div>
     {% endfor %}
