@@ -3,14 +3,21 @@
 
 {% block content %}
 <h1>รวมโรคปลา</h1>
-<p>ค้นหาจากอาการที่สังเกตเห็น เพื่อดูโรคที่อาจเกี่ยวข้องและปลาที่พบโรคนั้น</p>
+<p>ค้นหาจากอาการที่สังเกตเห็นหรือชื่อปลา เพื่อดูโรคที่อาจเกี่ยวข้อง</p>
 
-<section class="disease-search" aria-label="ค้นหาโรคจากอาการ">
+<section class="disease-search" aria-label="ค้นหาโรคจากอาการหรือชื่อปลา">
   <label for="symptomSearch">อาการที่เห็น</label>
   <input
     type="search"
     id="symptomSearch"
     placeholder="เช่น เมือกมาก ว่ายน้ำผิดปกติ หรือจุดขาว"
+    autocomplete="off"
+  >
+  <label for="fishSearch">ชื่อปลา</label>
+  <input
+    type="search"
+    id="fishSearch"
+    placeholder="เช่น ปลานิล หรือปลาดุก"
     autocomplete="off"
   >
 </section>
@@ -22,7 +29,7 @@
 {% if diseases %}
 <div class="disease-list" id="diseaseList">
   {% for disease in diseases %}
-  <article class="disease-card" data-symptom="{{ disease.symptom }}">
+  <article class="disease-card" data-symptom="{{ disease.symptom }}" data-fish="{{ disease.fish_name }}">
     <h2>{{ disease.name }}</h2>
     <p class="disease-fish">
       พบใน:
@@ -40,7 +47,7 @@
 {% endif %}
 
 <p class="empty" id="noDiseases" {% if diseases %}hidden{% endif %}>
-  ไม่พบโรคที่ตรงกับอาการนี้ ลองค้นหาด้วยคำอื่น
+  ไม่พบโรคที่ตรงกับคำค้นหา ลองเปลี่ยนอาการหรือชื่อปลา
 </p>
 
 <p class="note">
@@ -50,22 +57,29 @@
 
 <script>
   const symptomSearch = document.getElementById("symptomSearch");
+  const fishSearch = document.getElementById("fishSearch");
   const diseaseCards = Array.from(document.querySelectorAll(".disease-card"));
   const diseaseCount = document.getElementById("diseaseCount");
   const noDiseases = document.getElementById("noDiseases");
 
-  symptomSearch.addEventListener("input", () => {
-    const query = symptomSearch.value.trim().toLocaleLowerCase("th");
+  function filterDiseases() {
+    const symptomQuery = symptomSearch.value.trim().toLocaleLowerCase("th");
+    const fishQuery = fishSearch.value.trim().toLocaleLowerCase("th");
     let visibleCount = 0;
 
     diseaseCards.forEach((card) => {
-      const matches = card.dataset.symptom.toLocaleLowerCase("th").includes(query);
+      const matchesSymptom = card.dataset.symptom.toLocaleLowerCase("th").includes(symptomQuery);
+      const matchesFish = card.dataset.fish.toLocaleLowerCase("th").includes(fishQuery);
+      const matches = matchesSymptom && matchesFish;
       card.hidden = !matches;
       if (matches) visibleCount += 1;
     });
 
     diseaseCount.textContent = visibleCount;
     noDiseases.hidden = visibleCount > 0;
-  });
+  }
+
+  symptomSearch.addEventListener("input", filterDiseases);
+  fishSearch.addEventListener("input", filterDiseases);
 </script>
 {% endblock %}
