@@ -9,6 +9,7 @@
     <h1>{{ fish.name_th }}</h1>
       {% if fish.name_en %}<p class="en">{{ fish.name_en }}</p>{% endif %}
       {% if fish.name_sci %}<p class="sci">{{ fish.name_sci }}</p>{% endif %}
+      {% if fish.family %}<p>วงศ์: {{ fish.family }}</p>{% endif %}
   </header>
 
   {% if fish.has_image %}
@@ -46,6 +47,9 @@
       {% if fish.water.hardness %}<li>ความกระด้าง: {{ fish.water.hardness }}</li>{% endif %}
       {% if fish.water.alkalinity %}<li>ความเป็นด่าง: {{ fish.water.alkalinity }}</li>{% endif %}
       {% if fish.water.transparency %}<li>ความโปร่งใส: {{ fish.water.transparency }}</li>{% endif %}
+      {% if fish.water.ammonia_total %}<li>แอมโมเนียรวม: {{ fish.water.ammonia_total }}</li>{% endif %}
+      {% if fish.water.ammonia_NH3 %}<li>แอมโมเนียรูปไม่แตกตัว (NH₃): {{ fish.water.ammonia_NH3 }}</li>{% endif %}
+      {% if fish.water.nitrite_NO2 %}<li>ไนไตรต์ (NO₂): {{ fish.water.nitrite_NO2 }}</li>{% endif %}
       {% if fish.water.detail %}<li>{{ fish.water.detail }}</li>{% endif %}
     </ul>
   </section>
@@ -58,7 +62,13 @@
     <ul>
       <li><strong>เวลา:</strong> {{ fish.food.time or "ยังไม่มีข้อมูลระบุ" }}</li>
       <li><strong>ปริมาณ:</strong> {{ fish.food.quantity or "ยังไม่มีข้อมูลระบุ" }}</li>
-      <li><strong>วิธีให้:</strong> {{ fish.food.method or "ยังไม่มีข้อมูลระบุ" }}</li>
+      {% if fish.food.method is string %}
+      <li><strong>วิธีให้:</strong> {{ fish.food.method }}</li>
+      {% elif fish.food.method %}
+      <li><strong>วิธีให้:</strong><ul>{% for method in fish.food.method %}<li>{{ method }}</li>{% endfor %}</ul></li>
+      {% else %}
+      <li><strong>วิธีให้:</strong> ยังไม่มีข้อมูลระบุ</li>
+      {% endif %}
     </ul>
     {% if fish.food.detail %}<p>{{ fish.food.detail }}</p>{% endif %}
   </section>
@@ -84,6 +94,32 @@
   <section>
     <h2>รูปแบบบ่อที่เลี้ยงได้</h2>
     <p>{{ fish.pond|join(" · ") }}</p>
+    {% if fish.pond_detail %}<ul>{% for detail in fish.pond_detail %}<li>{{ detail }}</li>{% endfor %}</ul>{% endif %}
+  </section>
+  {% endif %}
+
+  {% if fish.preparation %}
+  <section>
+    <h2>การเตรียมระบบเลี้ยง</h2>
+    <ul>{% for step in fish.preparation %}<li>{{ step }}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  {% if fish.disease_prevention %}
+  <section>
+    <h2>การป้องกันโรคโดยรวม</h2>
+    <ul>{% for step in fish.disease_prevention %}<li>{{ step }}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  {% if fish.harvest %}
+  <section>
+    <h2>การจับและจำหน่าย</h2>
+    {% if fish.harvest.duration %}<p><strong>ระยะเวลา:</strong> {{ fish.harvest.duration }}</p>{% endif %}
+    {% if fish.harvest.size_for_sale %}<p><strong>ขนาดจำหน่าย:</strong> {{ fish.harvest.size_for_sale }}</p>{% endif %}
+    {% if fish.harvest.price %}<p><strong>ราคา:</strong> {{ fish.harvest.price }}</p>{% endif %}
+    {% if fish.harvest.method %}<ul>{% for step in fish.harvest.method %}<li>{{ step }}</li>{% endfor %}</ul>{% endif %}
+    {% if fish.harvest.detail %}<p>{{ fish.harvest.detail }}</p>{% endif %}
   </section>
   {% endif %}
 
@@ -95,6 +131,7 @@
       {% if economy.cost %}<p><strong>ต้นทุนการเลี้ยงโดยประมาณ (ราคา/100 ตัว):</strong> {{ economy.cost }}</p>{% endif %}
       {% if economy.price %}<p><strong>ราคาขายต่อกิโลกรัม:</strong> {{ economy.price }}</p>{% endif %}
       {% if economy.market %}<p><strong>ตลาดหลัก:</strong> {{ economy.market }}</p>{% endif %}
+      {% if economy.detail %}<p>{{ economy.detail }}</p>{% endif %}
       {% if economy.note %}<p class="note">{{ economy.note }}</p>{% endif %}
     {% endfor %}
   </section>
@@ -125,6 +162,7 @@
       <li>
         {{ s.title }}{% if s.publisher %} — {{ s.publisher }}{% endif %}
         {% if s.url %} <a href="{{ s.url }}" target="_blank" rel="noopener">[ลิงก์]</a>{% endif %}
+        {% if s.note %}<p>{{ s.note }}</p>{% endif %}
       </li>
       {% endfor %}
     </ol>
