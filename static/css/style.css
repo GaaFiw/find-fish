@@ -91,9 +91,8 @@ figcaption { font-size: 0.8rem; color: #5a6b76; }
 .landing-eyebrow { margin: 0 0 10px; color: #9eeaf0; font-weight: 700; letter-spacing: .04em; }
 .landing-content h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.25; }
 .landing-description { max-width: 500px; margin: 18px 0 28px; color: #e2f1f3; font-size: 1.1rem; }
-.landing-button { position: relative; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; transition: transform .2s; }
+.landing-button { display: inline-flex; align-items: center; justify-content: center; transition: transform .2s; }
 .landing-button img { display: block; width: min(260px, 80vw); height: auto; }
-.landing-button span { position: absolute; top: 50%; left: 50%; padding: 2px 12px; transform: translate(-50%, -50%); border: 1px solid rgba(255, 255, 255, .8); border-radius: 999px; background: rgba(7, 48, 63, .96); box-shadow: 0 2px 8px rgba(0, 0, 0, .3); color: #ffe08a; font-size: clamp(.85rem, 4vw, 1.1rem); font-weight: 700; line-height: 1.5; white-space: nowrap; }
 .landing-button:hover { transform: translateY(-2px); }
 .landing-button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 .landing-credit { position: absolute; right: 24px; bottom: 12px; z-index: 1; margin: 0; color: rgba(255, 255, 255, .8); font-size: .8rem; }
