@@ -5,6 +5,13 @@
 <h1>ปลาเศรษฐกิจน้ำจืด ({{ fish_list|length }} ชนิด)</h1>
 
 <form class="sort-form" method="get" action="{{ url_for('index') }}">
+  <label for="category">ประเภทปลา</label>
+  <select id="category" name="category" onchange="this.form.submit()">
+    <option value="">ทั้งหมด</option>
+    {% for category in categories %}
+    <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+    {% endfor %}
+  </select>
   <label for="sort">เรียงตาม</label>
   <select id="sort" name="sort" onchange="this.form.submit()">
     <option value="name" {% if selected_sort == "name" %}selected{% endif %}>ชื่อปลา</option>

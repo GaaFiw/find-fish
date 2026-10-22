@@ -210,6 +210,17 @@ def index():
         selected_sort = "name"
 
     fish_list = load_fish()
+    categories = sorted(
+        {fish.get("category") for fish in fish_list if fish.get("category")}
+    )
+    selected_category = (request.args.get("category") or "").strip()
+    if selected_category not in categories:
+        selected_category = ""
+    if selected_category:
+        fish_list = [
+            fish for fish in fish_list if fish.get("category") == selected_category
+        ]
+
     name_key = lambda fish: (fish.get("name_th") or "").casefold()
 
     if selected_sort == "name":
@@ -234,7 +245,11 @@ def index():
         fish_list = known_duration + missing_duration
 
     return render_template(
-        "index.html", fish_list=fish_list, selected_sort=selected_sort
+        "index.html",
+        fish_list=fish_list,
+        selected_sort=selected_sort,
+        categories=categories,
+        selected_category=selected_category,
     )
 
 
@@ -243,18 +258,14 @@ def filterpage():
     """หน้าเลือกกรองปลา"""
     all_fishes = load_fish()
     fishes = all_fishes
-    selected_category = (request.args.get("category") or "").strip()
     selected_food = (request.args.get("food") or "").strip()
     selected_pond = (request.args.get("pond") or "").strip()
 
-    if selected_category:
-        fishes = [fish for fish in fishes if fish.get("category") == selected_category]
     if selected_food:
         fishes = [fish for fish in fishes if (fish.get("food") or {}).get("type") == selected_food]
     if selected_pond:
         fishes = [fish for fish in fishes if selected_pond in pond_list(fish)]
 
-    categories = ["ปลาสวยงามน้ำจืด", "ปลาน้ำจืดเพื่อการบริโภค"]
     food_types = sorted(
         {
             (fish.get("food") or {}).get("type")
@@ -268,8 +279,6 @@ def filterpage():
         "filter.html",
         fishes=fishes,
         total=len(all_fishes),
-        categories=categories,
-        selected_category=selected_category,
         food_types=food_types,
         pond_types=pond_types,
         selected_food=selected_food,

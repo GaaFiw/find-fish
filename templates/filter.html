@@ -26,15 +26,6 @@
 
 <!-- method="get" → ค่าที่เลือกไปอยู่ใน URL แชร์ลิงก์ผลลัพธ์ให้เพื่อนได้ -->
 <form class="filter-form" method="get" action="{{ url_for('filterpage') }}">
-  <label>ประเภทปลา
-    <select name="category">
-      <option value="">ทั้งหมด</option>
-      {% for category in categories %}
-      <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
-      {% endfor %}
-    </select>
-  </label>
-
   <label>อาหาร
     <select name="food">
       <option value="">ทั้งหมด</option>
@@ -54,7 +45,7 @@
   </label>
 
   <button type="submit">กรอง</button>
-  {% if selected_category or selected_food or selected_pond %}
+  {% if selected_food or selected_pond %}
   <a class="clear" href="{{ url_for('filterpage') }}">ล้างตัวกรอง</a>
   {% endif %}
 </form>

@@ -20,7 +20,7 @@ body {
 
 /* หน้ารายการ: มือถือ 1 คอลัมน์ */
 .fish-grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
-.sort-form { display: flex; align-items: center; gap: 8px; margin: 12px 0 16px; }
+.sort-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 16px; }
 .sort-form label { font-size: 0.9rem; }
 .sort-form select { padding: 8px 12px; font-size: 1rem; border: 1px solid #bbb; border-radius: 8px; background: #fff; }
 .sort-form button { padding: 8px 12px; font-size: 1rem; border: 0; border-radius: 8px; background: #1e6fb8; color: #fff; cursor: pointer; }
